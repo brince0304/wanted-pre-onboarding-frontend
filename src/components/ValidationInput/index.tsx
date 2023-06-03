@@ -1,18 +1,9 @@
 import {Box, styled, TextField, Tooltip} from "@mui/material";
 import React from "react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ValidationFormControl from "../../interfaces/ValidationFormControl";
 
-interface ValidationInputProps {
-    testId: string,
-    validationMessage: string,
-    validationTrueMessage : string,
-    placeholder: string,
-    type: string,
-    value: string,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    validation: boolean,
-    label: string,
-}
+
 
 const StyledBox = styled(Box)`
   flex-direction: row;
@@ -35,7 +26,7 @@ const StyledIcon = styled(CheckCircleIcon)`
   
 `;
 
-const validationInput = (props: ValidationInputProps) => {
+const validationInput = (props: ValidationFormControl) => {
     const {
         testId,
         validationMessage,
@@ -51,7 +42,6 @@ const validationInput = (props: ValidationInputProps) => {
         <StyledBox id={"validation-form"}>
             <StyledTextBox
                 error={value.length > 0 && !validation}
-                data-testid={testId}
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
@@ -59,11 +49,13 @@ const validationInput = (props: ValidationInputProps) => {
                 variant={"standard"}
                 label={label}
                 color={value.length > 0 ? (validation ? "success" : "error") : "primary"}
+                inputProps={{'data-testid': testId}}
+                id={"validation-input"}
             />
             <Tooltip title={
                 value.length === 0 ? "" : validation ? validationTrueMessage : validationMessage
             } arrow placement={"top"}>
-            <StyledIcon validation={validation} length={value.length}/>
+            <StyledIcon id={"id-"+testId+"-validate"}  validation={validation} length={value.length}/>
             </Tooltip>
         </StyledBox>
     );
