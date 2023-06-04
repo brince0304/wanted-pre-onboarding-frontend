@@ -21,7 +21,6 @@ const StyledTextBox = styled(TextField)`
 const StyledIcon = styled(CheckCircleIcon)`
     position: absolute;
     right: 0;
-    color: ${(props: {validation: boolean,length : number}) => props.length === 0 ? "lightgray" : props.validation ? "green" : "red"};
     bottom: 7px;
   
 `;
@@ -55,7 +54,7 @@ const validationInput = (props: ValidationFormControl) => {
             <Tooltip title={
                 value.length === 0 ? "" : validation ? validationTrueMessage : validationMessage
             } arrow placement={"top"}>
-            <StyledIcon id={"id-"+testId+"-validate"}  validation={validation} length={value.length}/>
+            <StyledIcon color={value.length>0 ? (validation? "success":"error"):"disabled"} id={"id-"+testId+"-validate"}/>
             </Tooltip>
         </StyledBox>
     );

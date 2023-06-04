@@ -3,7 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import {Route, Router, Routes} from "react-router";
 import SignUp from "./pages/SignUp";
-import {Container, styled} from "@mui/material";
+import {Container} from "@mui/material";
+import SignIn from "./pages/SignIn";
+import styled from '@emotion/styled';
 
 const StyledContainer = styled(Container)`
     display:flex;
@@ -19,6 +21,7 @@ function App() {
     <StyledContainer>
         <Routes>
       <Route path={"/signup"} Component={SignUp}/>
+            <Route path={"/signin"} Component={SignIn}/>
         </Routes>
     </StyledContainer>
   );

@@ -1,15 +1,16 @@
 import { AxiosInstance } from "axios";
+import {getAccessToken, isAuthorized} from "../auth";
 
 
 export function setInterceptors(instance: AxiosInstance) {
+    const isAuth =  isAuthorized();
     // 요청 인터셉터 추가
     instance.interceptors.request.use(
         (config) => {
             config.headers["Content-Type"] = "application/json";
-            config.headers["Access-Control-Allow-Origin"] = "*";
-            config.headers["Access-Control-Allow-Methods"] = "GET,PUT,POST,DELETE,PATCH,OPTIONS";
-            config.headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept, Authorization";
-            config.headers["Access-Control-Allow-Credentials"] = "true";
+            if (isAuth) {
+                config.headers["Authorization"] = `Bearer ${getAccessToken()}`;
+            }
             // 요청 전처리 로직
             return config;
         },
