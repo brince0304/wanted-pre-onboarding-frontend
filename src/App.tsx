@@ -1,12 +1,13 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import {Route, Router, Routes} from "react-router";
+import {Navigate, Route, Router, Routes} from "react-router";
 import SignUp from "./pages/SignUp";
 import {Container} from "@mui/material";
 import SignIn from "./pages/SignIn";
 import styled from "@emotion/styled";
-import {isAuthorized} from "./apis/utils/auth";
+import Todo from "./pages/Todo";
+import { TokenProvider, useTokenDispatch, useTokenState } from "./context";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -18,14 +19,19 @@ const StyledContainer = styled(Container)`
 `;
 
 function App() {
-    const isAuth = isAuthorized();
+    const tokenState = useTokenState();
+
     return (
-        <StyledContainer>
-            <Routes>
-                <Route path={"/signup"} Component={SignUp}/>
-                <Route path={"/signin"} Component={SignIn}/>
-            </Routes>
-        </StyledContainer>
+            <StyledContainer>
+                <Routes>
+                    <Route path={"/signup"}
+                           element={tokenState.accessToken ? <Navigate to={"/todo"}/> : <SignUp/>}/>
+                    <Route path={"/signin"}
+                           element={tokenState.accessToken ? <Navigate to={"/todo"}/> : <SignIn/>}/>
+                    <Route path={"/todo"}
+                           element={tokenState.accessToken ? <Todo/> : <Navigate to={"/signin"}/>}/>
+                </Routes>
+            </StyledContainer>
     );
 }
 

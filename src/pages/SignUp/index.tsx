@@ -1,11 +1,10 @@
 import {Box, Button, Typography} from "@mui/material";
 import ValidationInput from "../../components/ValidationInput";
-import React, {FormEvent, useCallback, useEffect} from "react";
+import React, {FormEvent, useCallback} from "react";
 import {useFormControl} from "../../hooks/useFormControl";
 import {useNavigate} from "react-router";
 import {postSignup} from "../../apis";
 import styled from "@emotion/styled";
-import {isAuthorized} from "../../apis/utils/auth";
 
 const StyledFormControl = styled.form`
   display: flex;
@@ -35,12 +34,6 @@ const SignUp = () => {
     const [emailValidationMessage, setEmailValidationMessage] = React.useState<string>("이메일 형식이 아닙니다.");
     const [passwordValidationMessage, setPasswordValidationMessage] = React.useState<string>("비밀번호는 8자리 이상이어야 합니다.");
 
-    const isAuth = isAuthorized();
-    useEffect(() => {
-        if (isAuth) {
-            navigate("/todo");
-        }
-    });
 
     const emailInputProps = {
         testId: "email-input",
@@ -77,6 +70,7 @@ const SignUp = () => {
             if (window.confirm("회원가입을 진행하시겠습니까?")) {
                 postSignup({email, password}).then((res) => {
                     if (res) {
+                        alert("회원가입이 완료되었습니다.");
                         navigate("/signin");
                     }
                 }).catch((err) => {

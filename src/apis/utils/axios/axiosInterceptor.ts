@@ -1,15 +1,17 @@
 import { AxiosInstance } from "axios";
-import {deleteAccessToken, getAccessToken, isAuthorized} from "../auth";
+import {
+    getTokenFromLocalStorage, removeTokenFromLocalStorage
+} from "../../../context";
 
 
 export function setInterceptors(instance: AxiosInstance) {
-    const isAuth =  isAuthorized();
+
     // 요청 인터셉터 추가
     instance.interceptors.request.use(
         (config) => {
             config.headers["Content-Type"] = "application/json";
-            if (isAuth) {
-                config.headers["Authorization"] = `Bearer ${getAccessToken()}`;
+            if (getTokenFromLocalStorage) {
+                config.headers["Authorization"] = `Bearer ${getTokenFromLocalStorage()}`;
             }
             // 요청 전처리 로직
             return config;
@@ -22,9 +24,10 @@ export function setInterceptors(instance: AxiosInstance) {
     );
 
     instance.interceptors.response.use(
+
         (response) => {
             if(response.status === 401) {
-                deleteAccessToken();
+                removeTokenFromLocalStorage();
             }
             // 응답 전처리 로직
             return response;
