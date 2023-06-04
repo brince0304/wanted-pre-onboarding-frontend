@@ -59,10 +59,10 @@ const SignUp = () => {
         label: "비밀번호"
     };
 
-    const handleEmailValidationFalse = useCallback(() => {
+    const handleEmailValidationFalse = () => {
         setEmailValidation(false);
         setEmailValidationMessage("이미 존재하는 이메일입니다.");
-    }, [setEmailValidation, setEmailValidationMessage]);
+    }
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

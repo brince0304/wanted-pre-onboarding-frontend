@@ -61,15 +61,15 @@ const SignIn = () => {
         label: "비밀번호"
     };
 
-    const handleEmailValidationFalse = useCallback(() => {
+    const handleEmailValidationFalse = () => {
         setEmailValidation(false);
         setEmailValidationMessage("해당 사용자가 존재하지 않습니다.");
-    }, [setEmailValidation, setEmailValidationMessage]);
+    }
 
-    const handlePasswordValidationFalse = useCallback(() => {
+    const handlePasswordValidationFalse = () => {
         setPasswordValidation(false);
         setPasswordValidationMessage("비밀번호가 일치하지 않습니다.");
-    }, [setEmailValidation, setEmailValidationMessage]);
+    }
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

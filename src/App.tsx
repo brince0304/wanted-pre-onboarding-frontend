@@ -24,6 +24,7 @@ function App() {
     return (
             <StyledContainer>
                 <Routes>
+                    <Route path={"/"} element={tokenState.accessToken ? <Navigate to={"/todo"}/> : <Navigate to={"/signin"}/>}/>
                     <Route path={"/signup"}
                            element={tokenState.accessToken ? <Navigate to={"/todo"}/> : <SignUp/>}/>
                     <Route path={"/signin"}

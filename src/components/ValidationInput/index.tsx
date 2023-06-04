@@ -1,5 +1,5 @@
 import {Box, styled, TextField, Tooltip} from "@mui/material";
-import React from "react";
+import React, {useEffect} from "react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ValidationFormControl from "../../interfaces/ValidationFormControl";
 
@@ -25,7 +25,7 @@ const StyledIcon = styled(CheckCircleIcon)`
   
 `;
 
-const validationInput = (props: ValidationFormControl) => {
+const ValidationInput =  (props: ValidationFormControl) => {
     const {
         testId,
         validationMessage,
@@ -37,6 +37,9 @@ const validationInput = (props: ValidationFormControl) => {
         validation,
         label
     } = props;
+
+
+
     return (
         <StyledBox id={"validation-form"}>
             <StyledTextBox
@@ -60,4 +63,4 @@ const validationInput = (props: ValidationFormControl) => {
     );
 };
 
-export default validationInput;
+export default ValidationInput;

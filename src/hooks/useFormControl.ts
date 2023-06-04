@@ -1,5 +1,4 @@
-import ValidationFormControl from "../interfaces/ValidationFormControl";
-import React, {useCallback, useState} from "react";
+import React, { useState} from "react";
 
 
 export function useFormControl(options: {
@@ -11,18 +10,19 @@ export function useFormControl(options: {
     const [validation, setValidation] = useState<boolean>(false)
     const [value, setValue] = useState<string>("")
 
-    const validationFunction = useCallback((value: string) => {
+    const validationFunction =(value: string) => {
            if (regex.test(value)) {
                 setValidation(true)
             } else {
                 setValidation(false)
             }
-    }, [regex])
+    }
 
-    const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value)
-        validationFunction(e.target.value)
-    }, [validationFunction])
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+        setValue(value)
+        validationFunction(value)
+    }
 
 
     return [onChange,value,validation,setValidation]
