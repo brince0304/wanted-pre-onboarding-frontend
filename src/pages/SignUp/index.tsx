@@ -32,10 +32,11 @@ const SignUp = () => {
     const [onChangeEmail,email,emailValidation,setEmailValidation] = useFormControl({regex:emailRegex})
     const [onChangePassword,password,passwordValidation] = useFormControl({regex:passwordRegex})
     const [emailValidationMessage, setEmailValidationMessage] = React.useState<string>("이메일 형식이 아닙니다.")
+    const [passwordValidationMessage, setPasswordValidationMessage] = React.useState<string>("비밀번호는 8자리 이상이어야 합니다.")
     const emailInputProps = {
         testId: "email-input",
         validationMessage: emailValidationMessage,
-        validationTrueMessage: "사용 가능한 이메일입니다.",
+        validationTrueMessage: "이메일 형식이 올바릅니다.",
         placeholder: "이메일을 입력해주세요.",
         type: "email",
         value: email,
@@ -46,7 +47,7 @@ const SignUp = () => {
 
     const passwordInputProps = {
         testId: "password-input",
-        validationMessage: "비밀번호는 8자리 이상입니다.",
+        validationMessage: passwordValidationMessage,
         validationTrueMessage: "사용 가능한 비밀번호입니다.",
         placeholder: "비밀번호를 입력해주세요.",
         type: "password",
@@ -63,7 +64,6 @@ const SignUp = () => {
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(email,password);
         if (emailValidation && passwordValidation) {
             if (window.confirm("회원가입을 진행하시겠습니까?")){
             postSignup({email,password}).then((res)=>{
