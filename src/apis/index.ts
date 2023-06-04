@@ -1,5 +1,6 @@
 import {axiosInstance, POST_SIGNIN_URL, POST_SIGNUP_URL} from "./utils/axios/axiosInstance";
 import {SigninData, SignupData} from "./data";
+import { AxiosResponse } from "axios";
 
 export const postSignup = async (data: SignupData) => {
     try {
@@ -7,7 +8,7 @@ export const postSignup = async (data: SignupData) => {
         return response.status === 201;
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -17,6 +18,6 @@ export const postSignin = async (data: SigninData) => {
         return response.data;
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 }

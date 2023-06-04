@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import {getAccessToken, isAuthorized} from "../auth";
+import {deleteAccessToken, getAccessToken, isAuthorized} from "../auth";
 
 
 export function setInterceptors(instance: AxiosInstance) {
@@ -23,6 +23,9 @@ export function setInterceptors(instance: AxiosInstance) {
 
     instance.interceptors.response.use(
         (response) => {
+            if(response.status === 401) {
+                deleteAccessToken();
+            }
             // 응답 전처리 로직
             return response;
         },
