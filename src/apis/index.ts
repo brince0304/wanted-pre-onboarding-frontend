@@ -1,6 +1,5 @@
-import {axiosInstance, POST_SIGNIN_URL, POST_SIGNUP_URL} from "./utils/axios/axiosInstance";
+import {axiosInstance, GET_TODO_URL, POST_SIGNIN_URL, POST_SIGNUP_URL} from "./utils/axios/axiosInstance";
 import {SigninData, SignupData} from "./data";
-import { AxiosResponse } from "axios";
 
 export const postSignup = async (data: SignupData) => {
     try {
@@ -21,3 +20,14 @@ export const postSignin = async (data: SigninData) => {
         throw error;
     }
 }
+
+export const getTodos = async () => {
+    try {
+        const response = await axiosInstance.get(GET_TODO_URL);
+        return response.data;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
