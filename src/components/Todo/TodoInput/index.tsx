@@ -2,9 +2,10 @@ import {Button, FormControl} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import React, {useCallback, useEffect, useState} from "react";
 import {useTokenState} from "../../../context";
-import {postTodo} from "../../../apis";
+import {createTodo} from "../../../apis";
 import styled from "@emotion/styled";
 import {useFormControl} from "../../../hooks/useFormControl";
+import {TodoPropertiesChild} from "../../../interfaces/TodoProperties";
 
 const StyledFormControl = styled.form`
   display: flex;
@@ -24,7 +25,7 @@ interface TodoInputProps {
     todo: string;
 }
 
-const TodoInput = (props: { getTodoList: () => void }) => {
+const TodoInput = (props: { getTodoList: () => void}) => {
     const regex = /^.{1,}$/;
     const  [onChange, value,setValue, validation] = useFormControl({regex: regex});
     const tokenState = useTokenState();
@@ -33,7 +34,7 @@ const TodoInput = (props: { getTodoList: () => void }) => {
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isAuth && validation) {
-            postTodo({todo: value}).then((res) => {
+            createTodo({todo: value}).then((res) => {
                 props.getTodoList();
                 setValue("");
             }).catch((err) => {
