@@ -29,8 +29,8 @@ const SignUp = () => {
     const navigate = useNavigate();
     const emailRegex = /@/;
     const passwordRegex = /.{8,}/;
-    const [onChangeEmail, email, emailValidation, setEmailValidation] = useFormControl({regex: emailRegex});
-    const [onChangePassword, password, passwordValidation] = useFormControl({regex: passwordRegex});
+    const [onChangeEmail, email,setEmail, emailValidation, setEmailValidation] = useFormControl({regex: emailRegex});
+    const [onChangePassword, password,setPassword, passwordValidation] = useFormControl({regex: passwordRegex});
     const [emailValidationMessage, setEmailValidationMessage] = React.useState<string>("이메일 형식이 아닙니다.");
     const [passwordValidationMessage, setPasswordValidationMessage] = React.useState<string>("비밀번호는 8자리 이상이어야 합니다.");
 

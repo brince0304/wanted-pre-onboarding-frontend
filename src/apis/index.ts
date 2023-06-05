@@ -37,9 +37,9 @@ export const getTodos = async () => {
     }
 }
 
-export const postTodo = async (todo:string) => {
+export const postTodo = async (data:{todo:string}) => {
     try {
-        const response = await axiosInstance.post(POST_TODO_URL, {todo:todo});
+        const response = await axiosInstance.post(POST_TODO_URL, data);
         return response.data;
     }
     catch (error) {

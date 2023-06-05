@@ -1,29 +1,22 @@
 import React, { useState} from "react";
 
-
 export function useFormControl(options: {
-    regex: RegExp
-}): [((e: React.ChangeEvent<HTMLInputElement>) => void), string, boolean, ((value: (((prevState: boolean) => boolean) | boolean)) => void)] {
-    const {
-        regex,
-    } = options || {};
-    const [validation, setValidation] = useState<boolean>(false)
-    const [value, setValue] = useState<string>("")
+    regex: RegExp;
+}): [React.ChangeEventHandler<HTMLInputElement>, string,React.Dispatch<React.SetStateAction<string>>, boolean, React.Dispatch<React.SetStateAction<boolean>>,] {
+    const { regex } = options || {};
+    const [value, setValue] = useState('');
+    const [validation, setValidation] = useState(false);
 
-    const validationFunction =(value: string) => {
-           if (regex.test(value)) {
-                setValidation(true)
-            } else {
-                setValidation(false)
-            }
-    }
+    const validateValue = (value: string) => {
+        const isValid = regex.test(value);
+        setValidation(isValid);
+    };
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        setValue(value)
-        validationFunction(value)
-    }
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        const value = e.target.value;
+        setValue(value);
+        validateValue(value);
+    };
 
-
-    return [onChange,value,validation,setValidation]
+    return [handleChange, value,setValue, validation, setValidation ,];
 }

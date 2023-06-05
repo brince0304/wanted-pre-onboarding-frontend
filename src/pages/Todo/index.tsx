@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {TodoProperties} from "../../interfaces/TodoProperties";
 import {getTodos} from "../../apis";
 import TodoInput from "../../components/Todo/TodoInput";
+import {useTokenState} from "../../context";
 
 const StyledBox = styled(Box)`
   display: flex;
@@ -17,12 +18,16 @@ const StyledBox = styled(Box)`
 
 const Todo = () => {
     const [data, setData] = useState<TodoProperties>([]);
+    const tokenState = useTokenState();
+    const isAuth = tokenState.accessToken !== null;
     useEffect(()=>{
-        getTodos().then((res)=>{
-            setData(res);
-        }).catch((err)=>{
-            console.log(err);
-        })
+        if(isAuth) {
+            getTodos().then((res) => {
+                setData(res);
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
     },[])
 
     const getTodoList = () => {
