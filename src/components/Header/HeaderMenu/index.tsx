@@ -8,9 +8,7 @@ import {Login, Logout, TodayOutlined} from "@mui/icons-material";
 
 const StyledButton = styled(Button)`
   display: flex;
-  width: 120px;
   height: 50px;
-  margin-right: 40px;
   gap: 10px;
   color: black;
 `;
@@ -48,6 +46,7 @@ const HeaderMenu = () => {
             flexDirection : "row",
             justifyContent: "center",
             alignItems: "center",
+            marginRight:"30px"
         }}>
             {menuData.map((item, index) => (
                 <StyledButton key={index} onClick={(e)=>{

@@ -14,10 +14,11 @@ import SignOut from "./pages/SignOut";
 const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 400px;
   height: 400px;
+  margin-top: 100px;
 `;
 
 function App() {

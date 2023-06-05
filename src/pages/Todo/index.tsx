@@ -3,11 +3,12 @@ import styled from "@emotion/styled";
 import {useEffect, useState} from "react";
 import {TodoProperties} from "../../interfaces/TodoProperties";
 import {getTodos} from "../../apis";
+import TodoInput from "../../components/Todo/TodoInput";
 
 const StyledBox = styled(Box)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   gap: 20px;
@@ -23,9 +24,17 @@ const Todo = () => {
             console.log(err);
         })
     },[])
+
+    const getTodoList = () => {
+        getTodos().then((res)=>{
+            setData(res);
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
     return (
         <StyledBox>
-            투두리스트
+            <TodoInput getTodoList={getTodoList}/>
         </StyledBox>
     )
 }
