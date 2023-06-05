@@ -5,7 +5,7 @@ const BASE_URL = 'https://www.pre-onboarding-selection-task.shop/'
 
 const axiosApi = (url:string, options? : any) => {
     const instance =  axios.create({
-        baseURL: BASE_URL,
+        baseURL: url,
         ...options
     })
     return setInterceptors(instance)

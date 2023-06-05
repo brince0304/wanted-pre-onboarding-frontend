@@ -8,6 +8,8 @@ import SignIn from "./pages/SignIn";
 import styled from "@emotion/styled";
 import Todo from "./pages/Todo";
 import { TokenProvider, useTokenDispatch, useTokenState } from "./context";
+import Header from "./components/Header";
+import SignOut from "./pages/SignOut";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -23,6 +25,7 @@ function App() {
 
     return (
             <StyledContainer>
+                <Header/>
                 <Routes>
                     <Route path={"/"} element={tokenState.accessToken ? <Navigate to={"/todo"}/> : <Navigate to={"/signin"}/>}/>
                     <Route path={"/signup"}
@@ -31,6 +34,9 @@ function App() {
                            element={tokenState.accessToken ? <Navigate to={"/todo"}/> : <SignIn/>}/>
                     <Route path={"/todo"}
                            element={tokenState.accessToken ? <Todo/> : <Navigate to={"/signin"}/>}/>
+                    <Route path={"/signout"}
+                           element={tokenState.accessToken ? <SignOut/> : <Navigate to={"/signin"}/>}/>
+
                 </Routes>
             </StyledContainer>
     );
