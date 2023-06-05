@@ -16,14 +16,13 @@ const StyledContainer = styled(Container)`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 400px;
+  width: 450px;
   height: 400px;
   margin-top: 100px;
 `;
 
 function App() {
     const tokenState = useTokenState();
-
     return (
             <StyledContainer>
                 <Header/>
