@@ -10,6 +10,8 @@ import {deleteTodo, updateTodo} from "../../../apis";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {useTokenState} from "../../../context";
+import {useNavigate} from "react-router";
+import {todoErrorHandler} from "../../../apis/utils/errorhandler";
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -51,6 +53,7 @@ const NonOverFlowTitle = styled(Typography)`
 `
 
 const TodoContent = (props: { data: TodoPropertiesChild, getTodoList: () => void }) => {
+    const navigate = useNavigate();
     const regex = /^.{1,}$/;
     const { todo, isCompleted, id } = props.data;
     const [onChange, value, setValue, validation] = useFormControl({ regex, initialValue: todo });
@@ -60,7 +63,6 @@ const TodoContent = (props: { data: TodoPropertiesChild, getTodoList: () => void
     const [isOverflow, setIsOverflow] = useState<boolean>(false);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (!isAuth) return;
         handleUpdateTodo({
             id: id.toString(),
             isCompleted: event.target.checked,
@@ -73,10 +75,11 @@ const TodoContent = (props: { data: TodoPropertiesChild, getTodoList: () => void
         updateTodo(data)
             .then(() => {
                 props.getTodoList();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            }).catch((error) => {
+            if (error.response.status === 401) {
+                todoErrorHandler();
+            }
+        });
     };
 
     const handleEditClick = useCallback(() => {
@@ -99,7 +102,7 @@ const TodoContent = (props: { data: TodoPropertiesChild, getTodoList: () => void
                 id: id.toString(),
                 isCompleted: isCompleted,
                 todo: value,
-            });
+            })
         }
     };
 
@@ -109,10 +112,11 @@ const TodoContent = (props: { data: TodoPropertiesChild, getTodoList: () => void
             deleteTodo(id.toString())
                 .then(() => {
                     props.getTodoList();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                }).catch((error) => {
+                    if (error.response.status === 401) {
+                        todoErrorHandler();
+                    }
+            });
         }
     };
 
