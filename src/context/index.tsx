@@ -1,9 +1,4 @@
-import React, {
-    createContext, Dispatch,
-    useContext, useEffect,
-    useReducer,
-
-} from "react";
+import React, {createContext, Dispatch, useContext, useEffect, useReducer,} from "react";
 
 type Action = { type: "SET_TOKEN"; token: string | null; };
 

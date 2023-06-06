@@ -1,9 +1,11 @@
 import {
-    axiosInstance, DELETE_TODO_URL,
+    axiosInstance,
+    DELETE_TODO_URL,
     GET_TODO_URL,
     POST_SIGNIN_URL,
     POST_SIGNUP_URL,
-    POST_TODO_URL, PUT_TODO_URL
+    POST_TODO_URL,
+    PUT_TODO_URL
 } from "./utils/axios/axiosInstance";
 import {SigninData, SignupData, UpdateTodoData} from "./data";
 import {TodoProperties, TodoPropertiesChild} from "../interfaces/TodoProperties";

@@ -1,7 +1,7 @@
 import {Box, List, Typography} from "@mui/material";
 import styled from "@emotion/styled";
 import {useEffect, useState} from "react";
-import {TodoProperties, TodoPropertiesChild} from "../../interfaces/TodoProperties";
+import {TodoProperties} from "../../interfaces/TodoProperties";
 import {getTodos} from "../../apis";
 import TodoInput from "../../components/Todo/TodoInput";
 import {useTokenState} from "../../context";

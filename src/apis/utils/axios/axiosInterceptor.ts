@@ -1,7 +1,5 @@
-import { AxiosInstance } from "axios";
-import {
-    getTokenFromLocalStorage, removeTokenFromLocalStorage
-} from "../../../context";
+import {AxiosInstance} from "axios";
+import {getTokenFromLocalStorage, removeTokenFromLocalStorage} from "../../../context";
 
 
 export function setInterceptors(instance: AxiosInstance) {

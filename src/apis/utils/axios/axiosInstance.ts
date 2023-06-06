@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios";
 import {setInterceptors} from "./axiosInterceptor";
 
 const BASE_URL = 'https://www.pre-onboarding-selection-task.shop/'

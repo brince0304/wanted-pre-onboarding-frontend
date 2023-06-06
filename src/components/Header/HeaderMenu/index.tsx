@@ -1,8 +1,8 @@
 import {Box, Button} from "@mui/material";
 import styled from "@emotion/styled";
 import {useNavigate} from "react-router";
-import React, {ReactNode, useEffect, useRef, useState} from "react";
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import React, {ReactNode} from "react";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import {useTokenState} from "../../../context";
 import {Login, Logout, TodayOutlined} from "@mui/icons-material";
 

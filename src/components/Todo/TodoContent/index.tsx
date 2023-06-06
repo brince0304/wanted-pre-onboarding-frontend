@@ -1,24 +1,14 @@
-import {TodoProperties, TodoPropertiesChild} from "../../../interfaces/TodoProperties";
-import {
-    Box,
-    Button,
-    Checkbox, FormControl,
-    Grow,
-    IconButton,
-    ListItem, TextField,
-    Tooltip,
-    Typography,
-} from "@mui/material";
+import {TodoPropertiesChild} from "../../../interfaces/TodoProperties";
+import {Box, Checkbox, IconButton, ListItem, TextField, Tooltip, Typography,} from "@mui/material";
 import styled from "@emotion/styled";
-import {ChangeEvent, useCallback, useEffect, useState} from "react";
+import {ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useRef } from "react";
-import { useFormControl } from "../../../hooks/useFormControl";
+import {useFormControl} from "../../../hooks/useFormControl";
 import {UpdateTodoData} from "../../../apis/data";
-import {deleteTodo, getTodos, updateTodo} from "../../../apis";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
+import {deleteTodo, updateTodo} from "../../../apis";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 import {useTokenState} from "../../../context";
 
 const StyledListItem = styled(ListItem)`

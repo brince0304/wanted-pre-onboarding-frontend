@@ -1,13 +1,12 @@
-import React, {useContext, useEffect} from "react";
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
-import {Navigate, Route, Router, Routes} from "react-router";
+import {Navigate, Route, Routes} from "react-router";
 import SignUp from "./pages/SignUp";
 import {Container} from "@mui/material";
 import SignIn from "./pages/SignIn";
 import styled from "@emotion/styled";
 import Todo from "./pages/Todo";
-import { TokenProvider, useTokenDispatch, useTokenState } from "./context";
+import {useTokenState} from "./context";
 import Header from "./components/Header";
 import SignOut from "./pages/SignOut";
 
