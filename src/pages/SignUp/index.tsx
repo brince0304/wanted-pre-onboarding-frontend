@@ -75,7 +75,6 @@ const SignUp = () => {
                     }
                 }).catch((err) => {
                     if (err.response.status === 400) {
-                        alert("이미 존재하는 이메일입니다.");
                         handleEmailValidationFalse();
                         const inputRef = document.getElementById("validation-input");
                         const emailInput = inputRef?.dataset.testid === "email-input" ? inputRef : null;

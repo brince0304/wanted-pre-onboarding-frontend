@@ -5,7 +5,7 @@ export const interceptorErrorHandler = (error: any) => {
         if (error.response.status === 401) {
             removeTokenFromLocalStorage();
         }else if(
-            error.response.status === 404) {
+            error.response.status !== 401) {
             if (error.response.data){
                 window.alert(error.response.data.message);
             }
