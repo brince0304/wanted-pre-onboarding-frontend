@@ -5,6 +5,7 @@ import {useTokenState} from "../../../context";
 import {createTodo} from "../../../apis";
 import styled from "@emotion/styled";
 import {useFormControl} from "../../../hooks/useFormControl";
+import {todoErrorHandler} from "../../../apis/utils/errorhandler";
 
 const StyledFormControl = styled.form`
   display: flex;
@@ -40,10 +41,9 @@ const TodoInput = (props: { getTodoList: () => void }) => {
                     setValue("");
                     setValidation(false);
                     ref.current?.focus();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                }).catch((err) => {
+                todoErrorHandler();
+            });
         }
     };
 

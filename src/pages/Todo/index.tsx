@@ -38,17 +38,15 @@ const Todo = () => {
         if(isAuth) {
             getTodos().then((res) => {
                 setData(res);
-            }).catch((err) => {
-                console.log(err);
             })
+        }else{
+            setData([]);
         }
-    },[])
+    },[isAuth])
 
     const getTodoList = () => {
         getTodos().then((res)=>{
             setData(res);
-        }).catch((err)=>{
-            console.log(err);
         })
     }
     return (

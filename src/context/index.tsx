@@ -43,7 +43,6 @@ export function TokenProvider({children}: { children: React.ReactNode }) {
         localStorage.setItem(stateName, JSON.stringify(state));
     }, [state]);
 
-
     return (
         <TokenStateContext.Provider value={state}>
             <TokenDispatchContext.Provider value={dispatch}>

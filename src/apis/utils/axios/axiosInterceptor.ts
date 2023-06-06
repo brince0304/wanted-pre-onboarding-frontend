@@ -1,5 +1,6 @@
 import {AxiosInstance} from "axios";
 import {getTokenFromLocalStorage, removeTokenFromLocalStorage} from "../../../context";
+import {interceptorErrorHandler} from "../errorhandler";
 
 
 export function setInterceptors(instance: AxiosInstance) {
@@ -11,12 +12,10 @@ export function setInterceptors(instance: AxiosInstance) {
             if (getTokenFromLocalStorage) {
                 config.headers["Authorization"] = `Bearer ${getTokenFromLocalStorage()}`;
             }
-            // 요청 전처리 로직
             return config;
         },
         (error) => {
-            console.log("error: ", error);
-            // 요청 에러 처리 로직
+            interceptorErrorHandler(error);
             return Promise.reject(error);
         }
     );
@@ -24,15 +23,10 @@ export function setInterceptors(instance: AxiosInstance) {
     instance.interceptors.response.use(
 
         (response) => {
-            if(response.status === 401) {
-                removeTokenFromLocalStorage();
-            }
-            // 응답 전처리 로직
             return response;
         },
         (error) => {
-            console.log("error: ", error);
-            // 응답 에러 처리 로직
+            interceptorErrorHandler(error);
             return Promise.reject(error);
         }
     );
