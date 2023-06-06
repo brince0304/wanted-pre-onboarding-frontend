@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <TokenProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.REACT_APP_BASE_NAME}>
           <App />
       </BrowserRouter>
     </TokenProvider>

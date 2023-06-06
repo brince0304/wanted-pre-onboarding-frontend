@@ -1,9 +1,9 @@
 import axios from "axios";
 import {setInterceptors} from "./axiosInterceptor";
 
-const BASE_URL = 'https://www.pre-onboarding-selection-task.shop/'
+const BASE_URL = process.env.REACT_APP_API_URL;
 
-const axiosApi = (url:string, options? : any) => {
+const axiosApi = (url:string | undefined, options? : any) => {
     const instance =  axios.create({
         baseURL: url,
         ...options
