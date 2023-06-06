@@ -1,6 +1,6 @@
 import {Button, FormControl} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useTokenState} from "../../../context";
 import {createTodo} from "../../../apis";
 import styled from "@emotion/styled";
@@ -25,32 +25,46 @@ interface TodoInputProps {
     todo: string;
 }
 
-const TodoInput = (props: { getTodoList: () => void}) => {
+const TodoInput = (props: { getTodoList: () => void }) => {
     const regex = /^.{1,}$/;
-    const  [onChange, value,setValue, validation] = useFormControl({regex: regex});
+    const [onChange, value, setValue, validation, setValidation] = useFormControl({ regex });
     const tokenState = useTokenState();
     const isAuth = tokenState.accessToken !== null;
+    const ref = useRef<HTMLInputElement>(null);
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isAuth && validation) {
-            createTodo({todo: value}).then((res) => {
-                props.getTodoList();
-                setValue("");
-            }).catch((err) => {
-                console.log(err);
-            });
+            createTodo({ todo: value })
+                .then((res) => {
+                    props.getTodoList();
+                    setValue("");
+                    setValidation(false);
+                    ref.current?.focus();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     };
 
     return (
         <StyledFormControl onSubmit={onSubmit}>
-            <TextField inputProps={{
-                "data-testid": "new-todo-input"
-            }}
-                       variant={"standard"} label={"TODO"} placeholder={"할일을 적어보세요!"}
-                       onChange={onChange} value={value} sx={{width: "100%"}}/>
-            <Button data-testid={"new-todo-add-button"} type={"submit"} disabled={!validation}>추가</Button>
+            <TextField
+                inputProps={{
+                    "data-testid": "new-todo-input",
+                }}
+                ref={ref}
+                variant="standard"
+                label="TODO"
+                placeholder="할일을 적어보세요!"
+                onChange={onChange}
+                value={value}
+                sx={{ width: "100%" }}
+            />
+            <Button data-testid="new-todo-add-button" type="submit" disabled={!validation}>
+                추가
+            </Button>
         </StyledFormControl>
     );
 };

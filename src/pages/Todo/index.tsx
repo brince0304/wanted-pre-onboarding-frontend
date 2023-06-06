@@ -1,4 +1,4 @@
-import {Box, List} from "@mui/material";
+import {Box, List, Typography} from "@mui/material";
 import styled from "@emotion/styled";
 import {useEffect, useState} from "react";
 import {TodoProperties, TodoPropertiesChild} from "../../interfaces/TodoProperties";
@@ -54,12 +54,20 @@ const Todo = () => {
     return (
         <StyledBox>
             <TodoInput getTodoList={getTodoList}/>
-            <StyledTodoList>
+            {data.length > 0 &&
+                <StyledTodoList>
                 {data.map((todo)=>{
                     return <TodoContent key={todo.id} data={todo} getTodoList={getTodoList} />
                 })
                 }
-            </StyledTodoList>
+            </StyledTodoList>}
+            {data && data.length === 0 &&
+                <StyledTodoList>
+                    <Typography variant="h6" component="h6" sx={{color: "#9e9e9e"}}>
+                        할 일이 없습니다.
+                    </Typography>
+                </StyledTodoList>}
+
         </StyledBox>
     )
 }

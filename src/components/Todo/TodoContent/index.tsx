@@ -43,14 +43,6 @@ const StyledContentBox = styled(Box)`
   gap: 10px;
 `;
 
-const StyledTodoFormControl = styled(FormControl)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 400px;
-  gap: 10px;
-`;
 
 const StyledTodoContentBox = styled(Box)`
     display: block;
@@ -68,35 +60,34 @@ const NonOverFlowTitle = styled(Typography)`
     display: inline-block;
 `
 
-const TodoContent = (props: {data:TodoPropertiesChild, getTodoList:()=>void}) => {
+const TodoContent = (props: { data: TodoPropertiesChild, getTodoList: () => void }) => {
     const regex = /^.{1,}$/;
-    const [onChange,value,setValue,validation,setValidation] = useFormControl({regex: regex,
-    initialValue: props.data.todo,});
-    const todoContentRef = useRef<HTMLDivElement>(null)
-    const [isChecked, setIsChecked] = useState<boolean>(props.data.isCompleted);
-    const [content, setContent] = useState<string>(props.data.todo);
+    const { todo, isCompleted, id } = props.data;
+    const [onChange, value, setValue, validation] = useFormControl({ regex, initialValue: todo });
+    const todoContentRef = useRef<HTMLDivElement>(null);
+    const isAuth = useTokenState().accessToken !== null;
     const [isEdit, setIsEdit] = useState<boolean>(false);
-    const [isOverFlow, setIsOverFlow] = useState<boolean>(false);
-    const isAuth = useTokenState().accessToken!==null;
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if(!isAuth) return;
-        handleUpdateTodo({
-            id: props.data.id.toString(),
-            isCompleted: event.target.checked,
-            todo: content
-        })
-    }
+    const [isOverflow, setIsOverflow] = useState<boolean>(false);
 
-    const handleUpdateTodo = (data :UpdateTodoData) => {
-        if(!isAuth) return;
-       updateTodo(data).then((res) => {
-           setContent(res.todo);
-           setIsChecked(res.isCompleted);
-           props.getTodoList();
-       }).catch((err) => {
-           console.log(err);
-       })
-    }
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!isAuth) return;
+        handleUpdateTodo({
+            id: id.toString(),
+            isCompleted: event.target.checked,
+            todo: todo,
+        });
+    };
+
+    const handleUpdateTodo = (data: UpdateTodoData) => {
+        if (!isAuth) return;
+        updateTodo(data)
+            .then(() => {
+                props.getTodoList();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     const handleEditClick = useCallback(() => {
         setIsEdit(true);
@@ -104,105 +95,104 @@ const TodoContent = (props: {data:TodoPropertiesChild, getTodoList:()=>void}) =>
 
     const handleCancelClick = () => {
         setIsEdit(false);
-        setValue(content);
-    }
+        setValue(todo);
+    };
 
     const handleUpdateClick = () => {
-        if(value===content){
+        if (value === todo) {
             setIsEdit(false);
             return;
         }
-        if(validation && window.confirm("수정하시겠습니까?")) {
+        if (validation && window.confirm("수정하시겠습니까?")) {
             setIsEdit(false);
             handleUpdateTodo({
-                id: props.data.id.toString(),
-                isCompleted: isChecked,
-                todo: value
-            })
-        }
-    }
-
-    const handleDeleteClick = () => {
-        if(!isAuth) return;
-        if(window.confirm("삭제하시겠습니까?")) {
-            deleteTodo(props.data.id.toString()).then((res) => {
-                if(res){
-                    setContent("");
-                    setIsChecked(false);
-                }
-            }).catch((err) => {
-                console.log(err);
+                id: id.toString(),
+                isCompleted: isCompleted,
+                todo: value,
             });
         }
-        props.getTodoList();
+    };
 
-    }
+    const handleDeleteClick = () => {
+        if (!isAuth) return;
+        if (window.confirm("삭제하시겠습니까?")) {
+            deleteTodo(id.toString())
+                .then(() => {
+                    props.getTodoList();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    };
 
     useEffect(() => {
         const contentBox = todoContentRef.current;
         if (contentBox) {
-            const isOverflowed = contentBox.offsetWidth < contentBox.scrollWidth;
-            if(isOverflowed) {
-                setIsOverFlow(true)
-            }else{
-                setIsOverFlow(false)
-            }
+            setIsOverflow(contentBox.offsetWidth < contentBox.scrollWidth);
         }
-    }, [content])
+    }, [todo]);
 
-    if(content!==""){
-    return (
-    <StyledListItem>
-        <StyledContentBox>
-            <Checkbox
-                checked={isChecked}
-                onChange={handleChange}
-                inputProps={{"aria-label": "todo-checkbox"}}
-            />
-            {!isEdit &&
-                <StyledTodoContentBox ref={todoContentRef}>
-                    {isOverFlow ? <OverFlowTitle variant={"h6"}>{content}</OverFlowTitle> :
-                        <NonOverFlowTitle variant={"h6"}>{content}</NonOverFlowTitle>}
-                </StyledTodoContentBox>}
-            {isEdit &&
-                <StyledTodoContentBox>
-                    <TextField variant={"standard"} inputProps={{"data-testid": "modify-input"}} defaultValue={value}
-                               value={value} onChange={onChange}
-                               fullWidth/>
-                </StyledTodoContentBox>
-            }
-
-        </StyledContentBox>
-        {!isEdit &&
-            <StyledContentBox>
-                <Tooltip title={"수정"} arrow placement={"top"}>
-                    <IconButton data-testid={"modify-button"} onClick={handleEditClick}>
-                        <EditIcon/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={"삭제"} arrow placement={"top"}>
-                    <IconButton data-testid={"delete-button"} onClick={handleDeleteClick}>
-                        <DeleteIcon/>
-                    </IconButton>
-                </Tooltip>
-            </StyledContentBox>}
-        {isEdit &&
-            <StyledContentBox>
-                <Tooltip title={"제출"} arrow placement={"top"}>
-                    <IconButton data-testid={"submit-button"} onClick={handleUpdateClick} disabled={!validation}>
-                        <CheckCircleIcon/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={"취소"} arrow placement={"top"}>
-                    <IconButton data-testid={"cancel-button"} onClick={handleCancelClick}>
-                        <CancelIcon/>
-                    </IconButton>
-                </Tooltip>
-            </StyledContentBox>}
-
-
-    </StyledListItem>
-    );}else{
+    if (todo !== "") {
+        return (
+            <StyledListItem>
+                <StyledContentBox>
+                    <Checkbox
+                        checked={isCompleted}
+                        onChange={handleChange}
+                        inputProps={{ "aria-label": "todo-checkbox" }}
+                    />
+                    {!isEdit ? (
+                        <StyledTodoContentBox ref={todoContentRef}>
+                            {isOverflow ? (
+                                <OverFlowTitle variant="h6">{todo}</OverFlowTitle>
+                            ) : (
+                                <NonOverFlowTitle variant="h6">{todo}</NonOverFlowTitle>
+                            )}
+                        </StyledTodoContentBox>
+                    ) : (
+                        <StyledTodoContentBox>
+                            <TextField
+                                variant="standard"
+                                inputProps={{ "data-testid": "modify-input" }}
+                                defaultValue={value}
+                                value={value}
+                                onChange={onChange}
+                                fullWidth
+                            />
+                        </StyledTodoContentBox>
+                    )}
+                </StyledContentBox>
+                {!isEdit ? (
+                    <StyledContentBox>
+                        <Tooltip title="수정" arrow placement="top">
+                            <IconButton data-testid="modify-button" onClick={handleEditClick}>
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="삭제" arrow placement="top">
+                            <IconButton data-testid="delete-button" onClick={handleDeleteClick}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </StyledContentBox>
+                ) : (
+                    <StyledContentBox>
+                        <Tooltip title="제출" arrow placement="top">
+                            <IconButton data-testid="submit-button" onClick={handleUpdateClick} disabled={!validation}>
+                                <CheckCircleIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="취소" arrow placement="top">
+                            <IconButton data-testid="cancel-button" onClick={handleCancelClick}>
+                                <CancelIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </StyledContentBox>
+                )}
+            </StyledListItem>
+        );
+    } else {
         return null;
     }
 };
