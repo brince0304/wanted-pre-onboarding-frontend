@@ -4,7 +4,11 @@ export const interceptorErrorHandler = (error: any) => {
     if (error.response) {
         if (error.response.status === 401) {
             removeTokenFromLocalStorage();
-        } else {
+        }else if(
+            error.response.status === 404) {
+            return;
+        }
+        else {
             window.alert("알수없는 에러가 발생했습니다.");
         }
     } else if (error.request) {
