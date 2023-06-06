@@ -6,7 +6,9 @@ export const interceptorErrorHandler = (error: any) => {
             removeTokenFromLocalStorage();
         }else if(
             error.response.status === 404) {
-            return;
+            if (error.response.data){
+                window.alert(error.response.data.message);
+            }
         }
         else {
             window.alert("알수없는 에러가 발생했습니다.");
