@@ -31,7 +31,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://brince0304.github.io/wanted-pre-onboarding-frontend-deploy/",
+  "homepage": "https://brince-todo.netlify.app",
   "eslintConfig": {
     "extends": [
       "react-app",
