@@ -1,4 +1,4 @@
-import {Box, List, Typography} from "@mui/material";
+import {Box, CircularProgress, List, Typography} from "@mui/material";
 import styled from "@emotion/styled";
 import {useEffect, useState} from "react";
 import {TodoProperties} from "../../interfaces/TodoProperties";
@@ -31,6 +31,7 @@ const StyledTodoList = styled(List)`
 
 
 const Todo = () => {
+    const [isLoading,setIsLoading] = useState<boolean>(true);
     const [data, setData] = useState<TodoProperties>([]);
     const tokenState = useTokenState();
     const isAuth = tokenState.accessToken !== null;
@@ -38,9 +39,11 @@ const Todo = () => {
         if(isAuth) {
             getTodos().then((res) => {
                 setData(res);
+                setIsLoading(false);
             })
         }else{
             setData([]);
+            setIsLoading(false);
         }
     },[isAuth])
 
@@ -52,20 +55,14 @@ const Todo = () => {
     return (
         <StyledBox>
             <TodoInput getTodoList={getTodoList}/>
-            {data.length > 0 &&
-                <StyledTodoList>
-                {data.map((todo)=>{
-                    return <TodoContent key={todo.id} data={todo} getTodoList={getTodoList} />
-                })
-                }
-            </StyledTodoList>}
-            {data && data.length === 0 &&
-                <StyledTodoList>
-                    <Typography variant="h6" component="h6" sx={{color: "#9e9e9e"}}>
-                        할 일이 없습니다.
-                    </Typography>
-                </StyledTodoList>}
-
+            <StyledTodoList>
+                {isLoading ? <Typography variant={"h6"}>로딩중..</Typography> : (
+                    data && data.length > 0 ?
+                        data.map((todo)=>{
+                            return <TodoContent key={todo.id} data={todo} getTodoList={getTodoList} />
+                        }) : <Typography variant={"h6"}>할 일이 없습니다.</Typography>
+                    )}
+            </StyledTodoList>
         </StyledBox>
     )
 }
