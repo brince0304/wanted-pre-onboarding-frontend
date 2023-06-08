@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SignIn/> matches snapshot 1`] = `
+<div>
+  <form
+    class="css-aemo20"
+  >
+    로그인
+    <div
+      class="MuiBox-root css-irtdga"
+    >
+      <div
+        class="MuiBox-root css-1jke3r3"
+        id="validation-form"
+      >
+        <div
+          class="MuiFormControl-root MuiTextField-root css-uvscsy-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="validation-input"
+            id="validation-input-label"
+          >
+            이메일
+          </label>
+          <div
+            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-v4u5dn-MuiInputBase-root-MuiInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input MuiInput-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              data-testid="email-input"
+              id="validation-input"
+              placeholder="이메일을 입력해주세요."
+              type="email"
+              value=""
+            />
+          </div>
+        </div>
+        <svg
+          aria-hidden="true"
+          aria-label=""
+          class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium  css-y4srf3-MuiSvgIcon-root"
+          data-mui-internal-clone-element="true"
+          data-testid="CheckCircleIcon"
+          focusable="false"
+          id="id-email-input-validate"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-irtdga"
+    >
+      <div
+        class="MuiBox-root css-1jke3r3"
+        id="validation-form"
+      >
+        <div
+          class="MuiFormControl-root MuiTextField-root css-uvscsy-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="validation-input"
+            id="validation-input-label"
+          >
+            비밀번호
+          </label>
+          <div
+            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-v4u5dn-MuiInputBase-root-MuiInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input MuiInput-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              data-testid="password-input"
+              id="validation-input"
+              placeholder="비밀번호를 입력해주세요."
+              type="password"
+              value=""
+            />
+          </div>
+        </div>
+        <svg
+          aria-hidden="true"
+          aria-label=""
+          class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeMedium  css-y4srf3-MuiSvgIcon-root"
+          data-mui-internal-clone-element="true"
+          data-testid="CheckCircleIcon"
+          focusable="false"
+          id="id-password-input-validate"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+          />
+        </svg>
+      </div>
+    </div>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1gbpmz4-MuiButtonBase-root-MuiButton-root"
+      data-testid="signin-button"
+      disabled=""
+      tabindex="-1"
+      type="submit"
+    >
+      로그인
+    </button>
+  </form>
+</div>
+`;
