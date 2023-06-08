@@ -9,6 +9,7 @@ import Todo from "./pages/Todo";
 import {useTokenState} from "./context";
 import Header from "./components/Header";
 import SignOut from "./pages/SignOut";
+import NotFound from "./pages/404";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -35,7 +36,7 @@ function App() {
                            element={tokenState.accessToken ? <Todo/> : <Navigate to={"/signin"}/>}/>
                     <Route path={"/signout"}
                            element={tokenState.accessToken ? <SignOut/> : <Navigate to={"/signin"}/>}/>
-
+                    <Route path={"*"} element={<NotFound/>}/>
                 </Routes>
             </StyledContainer>
     );
