@@ -98,7 +98,7 @@ const SignUp = () => {
             <StyledInputBox>
                 <ValidationInput {...passwordInputProps}/>
             </StyledInputBox>
-            <StyledSignupButton data-textid={"signup-button"} disabled={!emailValidation || !passwordValidation}
+            <StyledSignupButton data-testid={"signup-button"} disabled={!emailValidation || !passwordValidation}
                                 variant={"contained"} type="submit">
                 회원가입
             </StyledSignupButton>
