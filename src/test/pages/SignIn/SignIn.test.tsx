@@ -16,19 +16,23 @@ jest.mock('../../../context', () => ({
 }));
 
 const mockedUsedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom') as any,
-    useNavigate: () => {
-        navigator: jest.fn().mockImplementation(() => {
-        });
-        return mockedUsedNavigate;
-    }
+
+jest.mock("react-router", () => ({
+    ...jest.requireActual("react-router"),
+    useNavigate: () => mockedUsedNavigate
 }));
+
 
 beforeEach(() => {
     mockedUsedNavigate.mockReset();
     mockedDispatch.mockReset();
 });
+
+afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+});
+
 
 function customRender(children: ReactNode) {
     return render(
@@ -106,7 +110,7 @@ describe("<SignIn/>", () => {
             expect(validationIcon.getAttribute('aria-label')).toBe('비밀번호가 일치하지 않습니다.');
         });
     });
-    it("이메일과 비밀번호가 일치할 때 contex에 토큰 저장", async () => {
+    it("이메일과 비밀번호가 일치할 때 contex에 토큰 저장 후 TODO 로 이동", async () => {
         const postSignIn = jest.spyOn(apiMethods, "postSignin").mockResolvedValue({
             access_token : 'token'
         });
@@ -130,5 +134,6 @@ describe("<SignIn/>", () => {
         })
         expect(mockedSetToken).toBeCalledTimes(1);
         expect(mockedSetToken).toBeCalledWith(mockedDispatch, token);
+        expect(mockedUsedNavigate).toBeCalledWith('/todo');
     });
 });

@@ -1,11 +1,17 @@
 import SignUp from "../../../pages/SignUp";
 import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import React, {ReactNode} from "react";
-import {TokenProvider} from "../../../context";
+import {TokenProvider, useTokenState} from "../../../context";
 import {BrowserRouter} from "react-router-dom";
+import '@testing-library/jest-dom';
 
 const apiMethods = require("../../../apis/index.ts");
+const mockedUsedNavigate = jest.fn();
 
+jest.mock("react-router", () => ({
+    ...jest.requireActual("react-router"),
+    useNavigate: () => mockedUsedNavigate
+}));
 
 const mockedDispatch = jest.fn();
 jest.mock('../../../context', () => ({
@@ -13,15 +19,8 @@ jest.mock('../../../context', () => ({
     useTokenDispatch: () => mockedDispatch,
 }));
 
-const mockedUsedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom') as any,
-    useNavigate: () => {
-        navigator: jest.fn().mockImplementation(() => {
-        });
-        return mockedUsedNavigate;
-    }
-}));
+beforeEach(()=>{
+})
 
 function customRender(children: ReactNode) {
     return render(
@@ -83,7 +82,8 @@ describe("<SignUp/>", () => {
     it("이메일, 비밀번호가 조건에 맞고 회원가입이 성공했을때 로그인 페이지로 이동", async () => {
         const postSignUp = jest.spyOn(apiMethods, "postSignup").mockResolvedValue(true);
         const confirm = jest.spyOn(window, "confirm").mockReturnValue(true);
-        const alert = jest.spyOn(window, "alert").mockImplementation(() => {});
+        const alert = jest.spyOn(window, "alert").mockImplementation(() => {
+        });
         customRender(<SignUp/>);
         const signupButton = screen.getByTestId("signup-button");
         const emailInput = screen.getByTestId("email-input") as HTMLInputElement;
@@ -91,15 +91,11 @@ describe("<SignUp/>", () => {
         fireEvent.change(emailInput, {target: {value: "emailemail313121@email.email"}});
         fireEvent.change(passwordInput, {target: {value: "password"}});
         fireEvent.click(signupButton);
-        await waitFor(() => {
-            expect(postSignUp).toBeCalledTimes(1);
+        await expect(postSignUp).toBeCalledWith({
+            email: emailInput.value,
+            password: passwordInput.value
         });
-        await waitFor(() => {
-            expect(postSignUp).toBeCalledWith({
-                email: emailInput.value,
-                password: passwordInput.value
-            });
-        });
+        await expect(mockedUsedNavigate).toBeCalledWith("/signin");
     });
 
 });

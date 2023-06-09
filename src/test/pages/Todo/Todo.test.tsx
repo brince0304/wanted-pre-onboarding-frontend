@@ -3,22 +3,28 @@ import SignUp from "../../../pages/SignUp";
 import {act, fireEvent, render, screen, waitFor} from "@testing-library/react";
 import Todo from "../../../pages/Todo";
 import React, {ReactNode} from "react";
-import {TokenProvider} from "../../../context";
+import  {TokenProvider} from "../../../context";
 import {BrowserRouter} from "react-router-dom";
+import * as router from "react-router-dom";
 
 
 const apiMethods = require("../../../apis/index.ts");
-
-
 const mockedUsedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom') as any,
-    useNavigate: () => {
-        navigator: jest.fn().mockImplementation(() => {
-        });
-        return mockedUsedNavigate;
-    }
+
+jest.mock("react-router", () => ({
+    ...jest.requireActual("react-router"),
+    useNavigate: () => mockedUsedNavigate
 }));
+
+beforeEach(() => {
+    mockedUsedNavigate.mockReset();
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+});
+
 
 function customRender(children: ReactNode) {
     return render(
@@ -63,11 +69,21 @@ const giveTodoList = () => {
         .mockResolvedValueOnce(updatedTodoList);
 };
 
+function giveEmptyTokenProvider() {
+    const context = require("../../../context/index.tsx");
+    context.useTokenState = jest.fn().mockReturnValue({accessToken:null});
+}
+
 describe("<Todo/>", () => {
     it("matches snapshot", () => {
         customRender(<Todo/>);
         const utils = customRender(<Todo/>);
         expect(utils.container).toMatchSnapshot();
+    });
+    it("토큰이 없으면 로그인 페이지로 이동", async () => {
+        giveEmptyTokenProvider();
+        customRender(<Todo/>);
+        expect(mockedUsedNavigate).toHaveBeenCalledWith("/signin");
     });
     it("처음 투두를 랜더링할 시에 로딩중 문구 출력, 로딩 후 할일이 없습니다 출력", async () => {
         giveEmptyArray();
@@ -75,6 +91,13 @@ describe("<Todo/>", () => {
         expect(screen.getByText("로딩중..")).toBeInTheDocument();
         await waitFor(() => {
             expect(screen.queryByText("로딩중..")).toBeNull();
+        });
+    });
+    it("투두가 존재하면 투두 리스트 출력", async () => {
+        giveTodoList();
+        customRender(<Todo/>);
+        await waitFor(() => {
+            expect(screen.getAllByText("투두입니다.")).toHaveLength(1);
         });
     });
     it("투두가 존재하지 않으면 할일이 없습니다 출력", async () => {
@@ -219,12 +242,43 @@ describe("<Todo/>", () => {
             expect(screen.getByText("할 일이 없습니다.")).toBeInTheDocument();
         });
     });
-    it("투두가 존재하면 투두 리스트 출력", async () => {
-        giveTodoList();
+    it("토큰 없는 상황에서 삭제 시도하면 로그인 페이지로 이동", async () => {
+        giveEmptyTokenProvider();
+        const getTodos = jest.spyOn(apiMethods, "getTodos").mockResolvedValueOnce(todoList)
+            .mockResolvedValueOnce(updatedTodoList);
+        jest.spyOn(window,'confirm').mockImplementation(() => true);
+        jest.spyOn(window,'alert').mockImplementation(() => {});
+        const deleteTodo = jest.spyOn(apiMethods, "deleteTodo").mockRejectedValue({response:{
+                data: [],
+                status: 401
+            }});
         customRender(<Todo/>);
-        await waitFor(() => {
-            expect(screen.getAllByText("투두입니다.")).toHaveLength(1);
-        });
+        await expect(mockedUsedNavigate).toHaveBeenCalledWith("/signin");
     });
-
+    it("토큰 없는 상황에서 수정 시도하면 로그인 페이지로 이동", async () => {
+        giveEmptyTokenProvider();
+        const getTodos = jest.spyOn(apiMethods, "getTodos").mockResolvedValueOnce(todoList)
+            .mockResolvedValueOnce(updatedTodoList);
+        const updateTodo = jest.spyOn(apiMethods, "updateTodo").mockRejectedValue({response:{
+                data: [],
+                status: 401
+            }});
+        jest.spyOn(window,'confirm').mockImplementation(() => true);
+        jest.spyOn(window,'alert').mockImplementation(() => {});
+        customRender(<Todo/>);
+        await expect(mockedUsedNavigate).toHaveBeenCalledWith("/signin");
+    });
+    it("토큰 없는 상황에서 추가 시도하면 로그인 페이지로 이동", async () => {
+        giveEmptyTokenProvider();
+        const getTodos = jest.spyOn(apiMethods, "getTodos").mockResolvedValueOnce(todoList)
+            .mockResolvedValueOnce(updatedTodoList);
+        const createTodo = jest.spyOn(apiMethods, "createTodo").mockRejectedValue({response:{
+                data: [],
+                status: 401
+            }});
+        jest.spyOn(window,'confirm').mockImplementation(() => true);
+        jest.spyOn(window,'alert').mockImplementation(() => {});
+        customRender(<Todo/>);
+        await expect(mockedUsedNavigate).toHaveBeenCalledWith("/signin");
+    });
 });
