@@ -1,9 +1,8 @@
 import SignIn from "../../../pages/SignIn";
 import {fireEvent, render, screen, waitFor} from "@testing-library/react";
-import  {TokenProvider} from "../../../context";
+import {TokenProvider} from "../../../context";
 import React, {ReactNode} from "react";
 import {BrowserRouter} from "react-router-dom";
-
 
 
 const apiMethods = require("../../../apis/index.ts");

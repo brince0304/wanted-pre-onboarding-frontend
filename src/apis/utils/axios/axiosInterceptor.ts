@@ -1,5 +1,5 @@
 import {AxiosInstance} from "axios";
-import {getTokenFromLocalStorage, removeTokenFromLocalStorage} from "../../../context";
+import {getTokenFromLocalStorage} from "../../../context";
 import {interceptorErrorHandler} from "../errorhandler";
 
 

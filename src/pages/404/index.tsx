@@ -1,5 +1,5 @@
 import {Box, Button, styled} from "@mui/material";
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import React from "react";
 import {useNavigate} from "react-router";
 

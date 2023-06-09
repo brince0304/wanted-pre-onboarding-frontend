@@ -1,9 +1,9 @@
 import SignUp from "../../../pages/SignUp";
 import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import React, {ReactNode} from "react";
-import {TokenProvider, useTokenState} from "../../../context";
+import {TokenProvider} from "../../../context";
 import {BrowserRouter} from "react-router-dom";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 const apiMethods = require("../../../apis/index.ts");
 const mockedUsedNavigate = jest.fn();

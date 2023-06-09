@@ -49,7 +49,7 @@ exports[`<Todo/> matches snapshot 1`] = `
       <h6
         class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
       >
-        할 일이 없습니다.
+        로딩중..
       </h6>
     </ul>
   </div>

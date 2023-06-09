@@ -1,11 +1,9 @@
 import {TodoPropertiesChild} from "../../../interfaces/TodoProperties";
-import SignUp from "../../../pages/SignUp";
-import {act, fireEvent, render, screen, waitFor} from "@testing-library/react";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import Todo from "../../../pages/Todo";
 import React, {ReactNode} from "react";
-import  {TokenProvider} from "../../../context";
+import {TokenProvider} from "../../../context";
 import {BrowserRouter} from "react-router-dom";
-import * as router from "react-router-dom";
 
 
 const apiMethods = require("../../../apis/index.ts");

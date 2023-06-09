@@ -1,4 +1,4 @@
-import {Box, CircularProgress, List, Typography} from "@mui/material";
+import {Box, List, Typography} from "@mui/material";
 import styled from "@emotion/styled";
 import {useEffect, useState} from "react";
 import {TodoProperties} from "../../interfaces/TodoProperties";
