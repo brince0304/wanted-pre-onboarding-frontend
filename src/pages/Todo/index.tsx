@@ -6,6 +6,7 @@ import {getTodos} from "../../apis";
 import TodoInput from "../../components/Todo/TodoInput";
 import {useTokenState} from "../../context";
 import TodoContent from "../../components/Todo/TodoContent";
+import {useNavigate} from "react-router";
 
 const StyledBox = styled(Box)`
   display: flex;
@@ -35,6 +36,7 @@ const Todo = () => {
     const [data, setData] = useState<TodoProperties>([]);
     const tokenState = useTokenState();
     const isAuth = tokenState.accessToken !== null;
+    const navigate = useNavigate();
     useEffect(()=>{
         if(isAuth) {
             getTodos().then((res) => {
@@ -42,12 +44,17 @@ const Todo = () => {
                 setIsLoading(false);
             })
         }else{
-            setData([]);
-            setIsLoading(false);
+            window.alert("로그인이 필요합니다.");
+            navigate("/signin");
         }
-    },[isAuth])
+    },[])
 
     const getTodoList = () => {
+        if(!isAuth){
+            window.alert("로그인이 필요합니다.");
+            navigate("/signin");
+            return;
+        }
         getTodos().then((res)=>{
             setData(res);
         })
